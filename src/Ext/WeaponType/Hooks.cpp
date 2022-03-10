@@ -1,3 +1,5 @@
+#ifndef IS_RELEASE_VER
+
 #include "Body.h"
 
 #include <Ext/TechnoType/Body.h>
@@ -27,3 +29,5 @@ DEFINE_HOOK(0x6FF660, TechnoClass_FireBullet, 0x6)
 
 	return 0;
 }
+
+#endif // !IS_RELEASE_VER

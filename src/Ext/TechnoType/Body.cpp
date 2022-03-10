@@ -100,7 +100,7 @@ void TechnoTypeExt::ExtData::LoadFromINIFile(CCINIClass* const pINI)
 	this->InitialStrength.Read(exINI, pSection, "InitialStrength");
 	this->Death_NoAmmo.Read(exINI, pSection, "Death.NoAmmo");
 	this->Death_Countdown.Read(exINI, pSection, "Death.Countdown");
-	this->ShieldType.Read(exINI, pSection, "ShieldType", true);
+	this->ShieldType.Read(exINI, pSection, "PhobosShieldType", true);
 	this->CameoPriority.Read(exINI, pSection, "CameoPriority");
 
 	this->WarpOut.Read(exINI, pSection, "WarpOut");

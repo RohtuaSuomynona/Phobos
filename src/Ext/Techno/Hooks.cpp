@@ -382,9 +382,9 @@ DEFINE_HOOK(0x5F4F4E, ObjectClass_Unlimbo_LaserTrails, 0x7)
 	return 0;
 }
 
-DEFINE_HOOK(0x6F3428, TechnoClass_GetWeapon_ForceWeapon, 0x6)
+DEFINE_HOOK(0x6F3428, TechnoClass_SelectWeapon_ForceWeapon, 0x6)
 {
-	GET(TechnoClass*, pTechno, ECX);
+	GET(TechnoClass*, pTechno, ESI);
 
 	if (pTechno && pTechno->Target)
 	{

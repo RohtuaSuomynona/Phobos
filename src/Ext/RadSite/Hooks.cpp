@@ -1,4 +1,4 @@
-#include "Body.h"
+﻿#include "Body.h"
 
 #include <BulletClass.h>
 #include <HouseClass.h>
@@ -26,6 +26,7 @@
 
 DEFINE_HOOK(0x469150, BulletClass_Detonate_ApplyRadiation, 0x5)
 {
+	DEFINE_HARES_AVOID;
 	GET(BulletClass* const, pThis, ESI);
 	GET_BASE(CoordStruct const*, pCoords, 0x8);
 
@@ -47,13 +48,21 @@ DEFINE_HOOK(0x469150, BulletClass_Detonate_ApplyRadiation, 0x5)
 //unused function , safeguard
 DEFINE_HOOK(0x46ADE0, BulletClass_ApplyRadiation_UnUsed, 0x5)
 {
+	DEFINE_HARES_AVOID;
 	Debug::Log("[" __FUNCTION__ "] Called ! , You are not suppose to be here ! \n");
 	return 0x46AE5E;
 }
 
 // Fix for desolator 
-DEFINE_HOOK(0x5213E3, InfantryClass_AIDeployment_CheckRad, 0x4)
+DEFINE_HOOK(0x5213E5, InfantryClass_AIDeployment_CheckRad, 0x7)
 {
+	if (Phobos::Config::IsHaresUse)
+	{
+		GET(RadSiteClass*, pRad, EDI);
+		R->EAX(pRad->GetRadLevel());
+		return 0x5213EC;
+	}
+
 	GET(InfantryClass*, pInf, ESI);
 	GET(int, weaponRadLevel, EBX);
 
@@ -90,10 +99,10 @@ DEFINE_HOOK(0x5213E3, InfantryClass_AIDeployment_CheckRad, 0x4)
 }
 
 // Fix for desolator unable to fire his deploy weapon when cloaked 
-DEFINE_HOOK(0x521478, InfantryClass_AIDeployment_FireNotOKCloakFix, 0x4)
+DEFINE_HOOK(0x521478, InfantryClass_AIDeployment_FireNotOKCloakFix, 0x6)
 {
+	DEFINE_HARES_AVOID;
 	GET(InfantryClass* const, pThis, ESI);
-
 	auto const pWeapon = pThis->GetDeployWeapon()->WeaponType;
 	AbstractClass* pTarget = nullptr; //default WWP nullptr
 
@@ -106,18 +115,18 @@ DEFINE_HOOK(0x521478, InfantryClass_AIDeployment_FireNotOKCloakFix, 0x4)
 		// something is wrong somewhere  # Otamaa
 		auto nDeployFrame = pThis->Type->Sequence->GetSequence(Sequence::DeployedFire).CountFrames;
 		pThis->CloakDelayTimer.Start(nDeployFrame);
-
 		pTarget = MapClass::Instance->TryGetCellAt(pThis->GetCoords());
-	}
 
+	}
 	pThis->SetTarget(pTarget); //Here we go
 
 	return 0x521484;
 }
 
 // Too OP, be aware
-DEFINE_HOOK(0x43FB23, BuildingClass_AI, 0x5)
+DEFINE_HOOK(0x43FB23, BuildingClass_AI_Radsite, 0x5)
 {
+	DEFINE_HARES_AVOID;
 	GET(BuildingClass* const, pBuilding, ECX);
 
 	if (pBuilding->IsIronCurtained() || pBuilding->Type->ImmuneToRadiation || pBuilding->InLimbo || pBuilding->BeingWarpedOut || pBuilding->TemporalTargetingMe)
@@ -160,11 +169,16 @@ DEFINE_HOOK(0x43FB23, BuildingClass_AI, 0x5)
 }
 
 // skip Frame % RadApplicationDelay
-DEFINE_LJMP(0x4DA554, 0x4DA56E);
+DEFINE_HOOK(0x4DA554, FootClass_AI_SkipRadApplicationDelay, 0x5)
+{
+	DEFINE_HARES_AVOID;
+	return 0x4DA56E;
+}
 
 // Hook Adjusted to support Ares RadImmune Ability check
-DEFINE_HOOK(0x4DA59F, FootClass_AI_Radiation, 0x5)
+DEFINE_HOOK(0x4DA59F, FootClass_AI_Radiation, 0x6)
 {
+	DEFINE_HARES_AVOID;
 	GET(FootClass* const, pFoot, ESI);
 
 	if (!pFoot->IsIronCurtained() && pFoot->IsInPlayfield && !pFoot->TemporalTargetingMe)
@@ -216,6 +230,7 @@ DEFINE_HOOK(0x4DA59F, FootClass_AI_Radiation, 0x5)
 //All part of 0x65B580 Hooks is here
 DEFINE_HOOK(65B593, RadSiteClass_Activate_Delay, 6)
 {
+	DEFINE_HARES_AVOID;
 	GET(RadSiteClass* const, pThis, ECX);
 	auto const pExt = RadSiteExt::ExtMap.Find(pThis);
 
@@ -237,6 +252,7 @@ DEFINE_HOOK(65B593, RadSiteClass_Activate_Delay, 6)
 
 DEFINE_HOOK(65B5CE, RadSiteClass_Activate_Color, 6)
 {
+	DEFINE_HARES_AVOID;
 	GET_RADSITE(ESI, GetColor());
 
 	R->EAX(0);
@@ -257,6 +273,7 @@ DEFINE_HOOK(65B5CE, RadSiteClass_Activate_Color, 6)
 
 DEFINE_HOOK(0x65B63E, RadSiteClass_Activate_LightFactor, 0x6)
 {
+	DEFINE_HARES_AVOID;
 	GET_RADSITE(ESI, GetLightFactor());
 
 	__asm fmul output;
@@ -268,6 +285,7 @@ DEFINE_HOOK_AGAIN(0x65B6A0, RadSiteClass_Activate_TintFactor, 0x6)
 DEFINE_HOOK_AGAIN(0x65B6CA, RadSiteClass_Activate_TintFactor, 0x6)
 DEFINE_HOOK(0x65B6F2, RadSiteClass_Activate_TintFactor, 0x6)
 {
+	DEFINE_HARES_AVOID;
 	GET_RADSITE(ESI, GetTintFactor());
 
 	__asm fmul output;
@@ -278,6 +296,7 @@ DEFINE_HOOK(0x65B6F2, RadSiteClass_Activate_TintFactor, 0x6)
 
 DEFINE_HOOK(0x65B843, RadSiteClass_AI_LevelDelay, 0x6)
 {
+	DEFINE_HARES_AVOID;
 	GET_RADSITE(ESI, GetLevelDelay());
 
 	R->ECX(output);
@@ -287,6 +306,7 @@ DEFINE_HOOK(0x65B843, RadSiteClass_AI_LevelDelay, 0x6)
 
 DEFINE_HOOK(0x65B8B9, RadSiteClass_AI_LightDelay, 0x6)
 {
+	DEFINE_HARES_AVOID;
 	GET_RADSITE(ESI, GetLightDelay());
 
 	R->ECX(output);
@@ -297,6 +317,7 @@ DEFINE_HOOK(0x65B8B9, RadSiteClass_AI_LightDelay, 0x6)
 // Additional Hook below 
 DEFINE_HOOK(0x65BB67, RadSite_Deactivate, 0x6)
 {
+	DEFINE_HARES_AVOID;
 	GET_RADSITE(ECX, GetLevelDelay());
 	GET(int, val, EAX);
 

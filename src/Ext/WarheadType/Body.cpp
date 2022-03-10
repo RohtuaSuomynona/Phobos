@@ -102,29 +102,29 @@ void WarheadTypeExt::ExtData::LoadFromINIFile(CCINIClass* const pINI)
 	this->AffectsOwner.Read(exINI, pSection, "AffectsOwner");
 
 	// Shields
-	this->Shield_Penetrate.Read(exINI, pSection, "Shield.Penetrate");
-	this->Shield_Break.Read(exINI, pSection, "Shield.Break");
-	this->Shield_BreakAnim.Read(exINI, pSection, "Shield.BreakAnim");
-	this->Shield_HitAnim.Read(exINI, pSection, "Shield.HitAnim");
-	this->Shield_BreakWeapon.Read(exINI, pSection, "Shield.BreakWeapon");
-	this->Shield_AbsorbPercent.Read(exINI, pSection, "Shield.AbsorbPercent");
-	this->Shield_PassPercent.Read(exINI, pSection, "Shield.PassPercent");
-	this->Shield_Respawn_Duration.Read(exINI, pSection, "Shield.Respawn.Duration");
-	this->Shield_Respawn_Amount.Read(exINI, pSection, "Shield.Respawn.Amount");
-	this->Shield_Respawn_Rate_InMinutes.Read(exINI, pSection, "Shield.Respawn.Rate");
+	this->Shield_Penetrate.Read(exINI, pSection, "PhobosShield.Penetrate");
+	this->Shield_Break.Read(exINI, pSection, "PhobosShield.Break");
+	this->Shield_BreakAnim.Read(exINI, pSection, "PhobosShield.BreakAnim");
+	this->Shield_HitAnim.Read(exINI, pSection, "PhobosShield.HitAnim");
+	this->Shield_BreakWeapon.Read(exINI, pSection, "PhobosShield.BreakWeapon");
+	this->Shield_AbsorbPercent.Read(exINI, pSection, "PhobosShield.AbsorbPercent");
+	this->Shield_PassPercent.Read(exINI, pSection, "PhobosShield.PassPercent");
+	this->Shield_Respawn_Duration.Read(exINI, pSection, "PhobosShield.Respawn.Duration");
+	this->Shield_Respawn_Amount.Read(exINI, pSection, "PhobosShield.Respawn.Amount");
+	this->Shield_Respawn_Rate_InMinutes.Read(exINI, pSection, "PhobosShield.Respawn.Rate");
 	this->Shield_Respawn_Rate = (int)(this->Shield_Respawn_Rate_InMinutes * 900);
-	this->Shield_Respawn_ResetTimer.Read(exINI, pSection, "Shield.Respawn.RestartTimer");
-	this->Shield_SelfHealing_Duration.Read(exINI, pSection, "Shield.SelfHealing.Duration");
-	this->Shield_SelfHealing_Amount.Read(exINI, pSection, "Shield.SelfHealing.Amount");
-	this->Shield_SelfHealing_Rate_InMinutes.Read(exINI, pSection, "Shield.SelfHealing.Rate");
+	this->Shield_Respawn_ResetTimer.Read(exINI, pSection, "PhobosShield.Respawn.RestartTimer");
+	this->Shield_SelfHealing_Duration.Read(exINI, pSection, "PhobosShield.SelfHealing.Duration");
+	this->Shield_SelfHealing_Amount.Read(exINI, pSection, "PhobosShield.SelfHealing.Amount");
+	this->Shield_SelfHealing_Rate_InMinutes.Read(exINI, pSection, "PhobosShield.SelfHealing.Rate");
 	this->Shield_SelfHealing_Rate = (int)(this->Shield_SelfHealing_Rate_InMinutes * 900);
-	this->Shield_SelfHealing_ResetTimer.Read(exINI, pSection, "Shield.SelfHealing.RestartTimer");
-	this->Shield_AttachTypes.Read(exINI, pSection, "Shield.AttachTypes");
-	this->Shield_RemoveTypes.Read(exINI, pSection, "Shield.RemoveTypes");
-	this->Shield_ReplaceOnly.Read(exINI, pSection, "Shield.ReplaceOnly");
-	this->Shield_ReplaceNonRespawning.Read(exINI, pSection, "Shield.ReplaceNonRespawning");
-	this->Shield_InheritStateOnReplace.Read(exINI, pSection, "Shield.InheritStateOnReplace");
-	this->Shield_AffectTypes.Read(exINI, pSection, "Shield.AffectTypes");
+	this->Shield_SelfHealing_ResetTimer.Read(exINI, pSection, "PhobosShield.SelfHealing.RestartTimer");
+	this->Shield_AttachTypes.Read(exINI, pSection, "PhobosShield.AttachTypes");
+	this->Shield_RemoveTypes.Read(exINI, pSection, "PhobosShield.RemoveTypes");
+	this->Shield_ReplaceOnly.Read(exINI, pSection, "PhobosShield.ReplaceOnly");
+	this->Shield_ReplaceNonRespawning.Read(exINI, pSection, "PhobosShield.ReplaceNonRespawning");
+	this->Shield_InheritStateOnReplace.Read(exINI, pSection, "PhobosShield.InheritStateOnReplace");
+	this->Shield_AffectTypes.Read(exINI, pSection, "PhobosShield.AffectTypes");
 
 	this->NotHuman_DeathSequence.Read(exINI, pSection, "NotHuman.DeathSequence");
 }

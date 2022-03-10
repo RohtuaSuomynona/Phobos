@@ -86,6 +86,7 @@ TerrainTypeExt::ExtContainer::~ExtContainer() = default;
 // =============================
 // container hooks
 
+
 DEFINE_HOOK(0x71DBC0, TerrainTypeClass_CTOR, 0x7)
 {
 	GET(TerrainTypeClass*, pItem, ESI);
@@ -138,4 +139,3 @@ DEFINE_HOOK(0x71E0A6, TerrainTypeClass_LoadFromINI, 0x5)
 
 	return 0;
 }
-

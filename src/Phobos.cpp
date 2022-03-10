@@ -50,6 +50,7 @@ bool Phobos::Config::PrioritySelectionFiltering = true;
 bool Phobos::Config::DevelopmentCommands = true;
 bool Phobos::Config::ArtImageSwap = false;
 bool Phobos::Config::AllowParallelAIQueues = true;
+bool Phobos::Config::IsHaresUse = false;
 
 void Phobos::CmdLineParse(char** ppArgs, int nNumArgs)
 {
@@ -174,7 +175,7 @@ DEFINE_HOOK(0x5FACDF, OptionsClass_LoadSettings_LoadPhobosSettings, 0x5)
 	// ToolTips
 	{
 		Phobos::UI::ExtendedToolTips =
-			pINI_UIMD->ReadBool(TOOLTIPS_SECTION, "ExtendedToolTips", false);
+			pINI_UIMD->ReadBool(TOOLTIPS_SECTION, "PhobosExtendedToolTips", false);
 
 		Phobos::UI::MaxToolTipWidth =
 			pINI_UIMD->ReadInteger(TOOLTIPS_SECTION, "MaxWidth", 0);
@@ -220,6 +221,7 @@ DEFINE_HOOK(0x5FACDF, OptionsClass_LoadSettings_LoadPhobosSettings, 0x5)
 
 	CCINIClass* pINI = Phobos::OpenConfig((const char*)0x826260);
 	Phobos::Config::ArtImageSwap = pINI->ReadBool("General", "ArtImageSwap", false);
+	Phobos::Config::IsHaresUse = pINI->ReadBool("Ladder", "IsHaresUse", Phobos::Config::IsHaresUse);
 	Phobos::CloseConfig(pINI);
 
 	return 0;

@@ -5,7 +5,8 @@ WeaponTypeExt::ExtContainer WeaponTypeExt::ExtMap;
 
 void WeaponTypeExt::ExtData::Initialize()
 {
-	this->RadType = RadTypeClass::FindOrAllocate("Radiation");
+	if (!Phobos::Config::IsHaresUse)
+		this->RadType = RadTypeClass::FindOrAllocate("Radiation");
 }
 
 // =============================
@@ -30,13 +31,11 @@ void WeaponTypeExt::ExtData::LoadFromINIFile(CCINIClass* const pINI)
 	this->Bolt_Disable2.Read(exINI, pSection, "Bolt.Disable2");
 	this->Bolt_Disable3.Read(exINI, pSection, "Bolt.Disable3");
 
-	// RadTypeClass
-//	if (this->OwnerObject()->RadLevel > 0)
-//	{
-	this->RadType.Read(exINI, pSection, "RadType", true);
-	//	Debug::Log("Weapon[%s] :: Has RadLevel[%d] Rad check [%s]  \n", pSection , this->OwnerObject()->RadLevel , this->RadType->Name.data());
-	this->Rad_NoOwner.Read(exINI, pSection, "Rad.NoOwner");
-	//	}
+	if (!Phobos::Config::IsHaresUse)
+	{
+		this->RadType.Read(exINI, pSection, "RadType", true);
+		this->Rad_NoOwner.Read(exINI, pSection, "Rad.NoOwner");
+	}
 
 	this->Strafing_Shots.Read(exINI, pSection, "Strafing.Shots");
 	this->Strafing_SimulateBurst.Read(exINI, pSection, "Strafing.SimulateBurst");

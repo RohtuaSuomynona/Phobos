@@ -14,18 +14,27 @@
 DEFINE_HOOK(0x737F6D, UnitClass_TakeDamage_Destroy, 0x7)
 {
 	GET(UnitClass* const, pThis, ESI);
-	REF_STACK(args_ReceiveDamage const, Receivedamageargs, STACK_OFFS(0x44, -0x4));
 
-	R->ECX(R->ESI());
-	TechnoExt::ExtMap.Find(pThis)->ReceiveDamage = true;
-	AnimTypeExt::ProcessDestroyAnims(pThis, Receivedamageargs.Attacker);
-	pThis->Destroy();
+	if (Phobos::Config::IsHaresUse)
+	{
+		pThis->Explode();
+	}
+	else
+	{
+		REF_STACK(args_ReceiveDamage const, Receivedamageargs, STACK_OFFS(0x44, -0x4));
+
+		R->ECX(R->ESI());
+		TechnoExt::ExtMap.Find(pThis)->ReceiveDamage = true;
+		AnimTypeExt::ProcessDestroyAnims(pThis, Receivedamageargs.Attacker);
+		pThis->Destroy();
+	}
 
 	return 0x737F74;
 }
 
-DEFINE_HOOK(0x738807, UnitClass_Destroy_DestroyAnim, 0x8)
+DEFINE_HOOK(0x738807, UnitClass_Destroy_DestroyAnim, 0x6)
 {
+	DEFINE_HARES_AVOID;
 	GET(UnitClass* const, pThis, ESI);
 
 	auto const Extension = TechnoExt::ExtMap.Find(pThis);

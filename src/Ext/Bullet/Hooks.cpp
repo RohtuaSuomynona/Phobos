@@ -91,7 +91,7 @@ DEFINE_HOOK(0x4692BD, BulletClass_Logics_ApplyMindControl, 0x6)
 
 	return 0x4692D5;
 }
-
+#ifndef IS_RELEASE_VER
 DEFINE_HOOK(0x4671B9, BulletClass_AI_ApplyGravity, 0x6)
 {
 	GET(BulletTypeClass* const, pType, EAX);
@@ -151,8 +151,9 @@ DEFINE_HOOK(0x773087, WeaponTypeClass_GetSpeed_ApplyGravity, 0x6)
 
 	return 0x7730A3;
 }
+#endif // !IS_RELEASE_VER
 
-DEFINE_HOOK(0x6FF031, TechnoClass_FireAt_ReverseVelocityWhileGravityIsZero, 0xA)
+DEFINE_HOOK(0x6FF035, TechnoClass_FireAt_ReverseVelocityWhileGravityIsZero, 0x6)
 {
 	GET(BulletClass*, pBullet, EBX);
 

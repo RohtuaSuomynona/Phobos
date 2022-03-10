@@ -28,7 +28,8 @@ void RulesExt::LoadFromINIFile(RulesClass* pThis, CCINIClass* pINI)
 
 void RulesExt::LoadBeforeTypeData(RulesClass* pThis, CCINIClass* pINI)
 {
-	RadTypeClass::LoadFromINIList(pINI);
+	if (!Phobos::Config::IsHaresUse)
+		RadTypeClass::LoadFromINIList(pINI);
 	ShieldTypeClass::LoadFromINIList(pINI);
 	LaserTrailTypeClass::LoadFromINIList(&CCINIClass::INI_Art.get());
 

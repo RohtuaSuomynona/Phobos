@@ -6,6 +6,7 @@
 
 DEFINE_HOOK(0x68BCC0, ScenarioClass_Get_Waypoint_Location, 0xB)
 {
+	DEFINE_HARES_AVOID;
 	GET_STACK(CellStruct*, pCell, 0x4);
 	GET_STACK(int, nWaypoint, 0x8);
 
@@ -18,6 +19,7 @@ DEFINE_HOOK(0x68BCC0, ScenarioClass_Get_Waypoint_Location, 0xB)
 
 DEFINE_HOOK(0x68BCE4, ScenarioClass_Get_Waypoint_Cell_0, 0x7)
 {
+	DEFINE_HARES_AVOID;
 	GET_STACK(int, nWaypoint, 0x4);
 
 	R->ECX(&ScenarioExt::Global()->Waypoints[nWaypoint]);
@@ -27,6 +29,7 @@ DEFINE_HOOK(0x68BCE4, ScenarioClass_Get_Waypoint_Cell_0, 0x7)
 
 DEFINE_HOOK(0x68BD08, ScenarioClass_Get_Waypoint, 0x7)
 {
+	DEFINE_HARES_AVOID;
 	GET_STACK(int, nWaypoint, STACK_OFFS(0x10, -0x8));
 
 	R->ECX(&ScenarioExt::Global()->Waypoints[nWaypoint]);
@@ -36,13 +39,15 @@ DEFINE_HOOK(0x68BD08, ScenarioClass_Get_Waypoint, 0x7)
 
 DEFINE_HOOK(0x68BD60, ScenarioClass_Clear_All_Waypoints, 0x6)
 {
+	DEFINE_HARES_AVOID;
 	ScenarioExt::Global()->Waypoints.clear();
 
 	return 0x68BD79;
 }
 
-DEFINE_HOOK(0x68BD80, ScenarioClass_Is_Waypoint_Valid, 0x5)
+DEFINE_HOOK(0x68BD80, ScenarioClass_Is_Waypoint_Valid, 0x9)
 {
+	DEFINE_HARES_AVOID;
 	GET_STACK(int, nWaypoint, 0x4);
 	auto& waypoints = ScenarioExt::Global()->Waypoints;
 
@@ -53,6 +58,9 @@ DEFINE_HOOK(0x68BD80, ScenarioClass_Is_Waypoint_Valid, 0x5)
 
 DEFINE_HOOK(0x68BDC0, ScenarioClass_ReadWaypoints, 0x8)
 {
+	if (CCINIClass::INI_Rules->ReadBool("Ladder", "IsHaresUse", false))
+		return 0;
+
 	GET_STACK(INIClass* const, pINI, 0x4);
 
 	CellStruct buffer;
@@ -90,6 +98,7 @@ DEFINE_HOOK(0x6874E7, ScenarioClass_ReadINI_CellParsed, 0x6)
 
 DEFINE_HOOK(0x68BE90, ScenarioClass_Write_Waypoints, 0x5)
 {
+	DEFINE_HARES_AVOID;
 	GET_STACK(INIClass*, pINI, 0x4);
 
 	pINI->Clear("Waypoints", nullptr);
@@ -112,6 +121,7 @@ DEFINE_HOOK(0x68BE90, ScenarioClass_Write_Waypoints, 0x5)
 
 DEFINE_HOOK(0x68BF50, ScenarioClass_Set_Waypoint, 0x8)
 {
+	DEFINE_HARES_AVOID;
 	GET_STACK(int, nWaypoint, 0x4);
 	GET_STACK(CellStruct, cell, 0x8);
 
@@ -122,6 +132,7 @@ DEFINE_HOOK(0x68BF50, ScenarioClass_Set_Waypoint, 0x8)
 
 DEFINE_HOOK(0x68BF74, ScenarioClass_Get_Waypoint_Cell, 0x7)
 {
+	DEFINE_HARES_AVOID;
 	GET_STACK(int, nWaypoint, 0x4);
 
 	R->ECX(&ScenarioExt::Global()->Waypoints[nWaypoint]);
@@ -133,6 +144,14 @@ DEFINE_HOOK(0x763610, Waypoint_To_String, 0x5)
 {
 	static char buffer[8] { '\0' };
 	GET(int, nWaypoint, ECX);
+
+	if (Phobos::Config::IsHaresUse)
+	{
+		if (nWaypoint < 0)
+			return 0x763615;
+		else
+			return 0x763622;
+	}
 
 	if (nWaypoint < 0)
 		R->EAX("0");
@@ -157,6 +176,7 @@ DEFINE_HOOK(0x763610, Waypoint_To_String, 0x5)
 
 DEFINE_HOOK(0x763690, String_To_Waypoint, 0x7)
 {
+	DEFINE_HARES_AVOID;
 	GET(char*, pString, ECX);
 
 	int n = 0;
@@ -175,12 +195,14 @@ DEFINE_HOOK(0x763690, String_To_Waypoint, 0x7)
 // This function is really strange, it returns empty string if a wp is valid, but why? - secsome
 DEFINE_HOOK(0x68BF90, ScenarioClass_Get_Waypoint_As_String, 0x6)
 {
+	DEFINE_HARES_AVOID;
 	R->EAX(0x889F64);
 	return 0x68BFD7;
 }
 
 DEFINE_HOOK(0x6883B7, ScenStruct_ScenStruct_1, 0x6)
 {
+	DEFINE_HARES_AVOID;
 	GET(int, nCount, ESI);
 
 	// Waypoint 0-7 are used as multiplayer starting location
@@ -199,6 +221,7 @@ DEFINE_HOOK(0x6883B7, ScenStruct_ScenStruct_1, 0x6)
 
 DEFINE_HOOK(0x68843B, ScenStruct_ScenStruct_2, 0x6)
 {
+	DEFINE_HARES_AVOID;
 	REF_STACK(DynamicVectorClass<CellStruct>, waypoints, STACK_OFFS(0x40, 0x18));
 	REF_STACK(CellStruct, buffer, STACK_OFFS(0x40, 0x20));
 	GET(int, i, ESI);
@@ -224,6 +247,7 @@ DEFINE_HOOK(0x68843B, ScenStruct_ScenStruct_2, 0x6)
 
 DEFINE_HOOK(0x684CB7, Scen_Waypoint_Call_1, 0x7)
 {
+	DEFINE_HARES_AVOID;
 	GET(int, nWaypoint, EAX);
 
 	CellStruct cell = ScenarioExt::Global()->Waypoints[nWaypoint];
@@ -234,13 +258,15 @@ DEFINE_HOOK(0x684CB7, Scen_Waypoint_Call_1, 0x7)
 
 DEFINE_HOOK(0x6855E4, Scen_Waypoint_Call_2, 0x5)
 {
+	DEFINE_HARES_AVOID;
 	ScenarioExt::Global()->Waypoints.clear();
 
 	return 0x6855FC;
 }
 
-DEFINE_HOOK(0x68AFE7, Scen_Waypoint_Call_3, 0x5)
+DEFINE_HOOK(0x68AFE7, Scen_Waypoint_Call_3, 0x7)
 {
+	DEFINE_HARES_AVOID;
 	GET(int, nWaypoint, EDI);
 
 	CellStruct cell = ScenarioExt::Global()->Waypoints[nWaypoint];
@@ -251,6 +277,7 @@ DEFINE_HOOK(0x68AFE7, Scen_Waypoint_Call_3, 0x5)
 
 DEFINE_HOOK(0x68AF45, Scen_Waypoint_Call_4, 0x6)
 {
+	DEFINE_HARES_AVOID;
 	int nStartingPoints = 0;
 	for (int i = 0; i < 8; ++i)
 	{

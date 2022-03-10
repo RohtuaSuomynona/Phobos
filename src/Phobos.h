@@ -11,6 +11,8 @@ constexpr auto TOOLTIPS_SECTION = "ToolTips";
 constexpr auto SIDEBAR_SECTION = "Sidebar";
 constexpr auto GENERAL_SECTION = "General";
 
+#define DEFINE_HARES_AVOID if (Phobos::Config::IsHaresUse) return 0
+
 class Phobos
 {
 public:
@@ -66,5 +68,6 @@ public:
 		static bool DevelopmentCommands;
 		static bool ArtImageSwap;
 		static bool AllowParallelAIQueues;
+		static bool IsHaresUse;
 	};
 };

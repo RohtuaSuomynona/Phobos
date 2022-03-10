@@ -286,6 +286,8 @@ DEFINE_HOOK(0x739C86, UnitClass_DeployUndeploy_DeploySound, 0x6)
 
 // Issue #503
 // Author : Otamaa
+#ifndef IS_RELEASE_VER
+
 DEFINE_HOOK(0x4AE670, DisplayClass_GetToolTip_EnemyUIName, 0x8)
 {
 	enum { SetUIName = 0x4AE678 };
@@ -322,3 +324,5 @@ DEFINE_HOOK(0x4AE670, DisplayClass_GetToolTip_EnemyUIName, 0x8)
 	R->EAX(pDecidedUIName);
 	return SetUIName;
 }
+
+#endif // ! IS_RELEASE_VER

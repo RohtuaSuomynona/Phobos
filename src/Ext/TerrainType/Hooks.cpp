@@ -26,6 +26,11 @@ DEFINE_HOOK(0x71C853, TerrainTypeClass_Context_Set, 0x6)
 // thiscall is being emulated here, ECX = pThis, EDX is discarded, second arg is passed thru stack - Kerbiter
 void __fastcall TerrainClass_AI_CellsPerAnim(CellClass* pThis, void*, bool forced)
 {
+	if (Phobos::Config::IsHaresUse)
+	{
+		pThis->SpreadTiberium(true);
+		return;
+	}
 	int cellCount = 1;
 	if (TerrainTypeTemp::pCurrentExt)
 		cellCount = TerrainTypeTemp::pCurrentExt->GetCellsPerAnim();
