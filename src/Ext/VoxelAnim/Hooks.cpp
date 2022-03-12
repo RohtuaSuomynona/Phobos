@@ -1,3 +1,5 @@
+#ifndef IS_RELEASE_VER
+
 #include "Body.h"
 
 #include <Ext/VoxelAnimType/Body.h>
@@ -27,3 +29,5 @@ DEFINE_HOOK(0x74A70E, VoxelAnimClass_AI_Additional, 0xC)
 
 	return 0;
 }
+
+#endif // !IS_RELEASE_VER

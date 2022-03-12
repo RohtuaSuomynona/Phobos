@@ -89,7 +89,9 @@ template <typename T>
 void HouseExt::ExtData::Serialize(T& Stm)
 {
 	Stm
-		.Process(this->BuildingCounter);
+		.Process(this->BuildingCounter)
+		.Process(this->LimboMoney)
+		;
 }
 
 void HouseExt::ExtData::LoadFromStream(PhobosStreamReader& Stm)

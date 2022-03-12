@@ -4,6 +4,23 @@
 #include "../Building/Body.h"
 #include <unordered_map>
 
+DEFINE_HOOK(0x4F8FE1, HouseClass_AI, 0x5)
+{
+	GET(HouseClass*, pThis, ESI);
+	auto pHouseExt = HouseExt::ExtMap.Find(pThis);
+
+	for (auto pBld : pHouseExt->LimboMoney)
+	{
+		if (pBld->CashProductionTimer.Completed())
+		{
+			pThis->TransactMoney(pBld->Type->ProduceCashAmount);
+			pBld->CashProductionTimer.Start(pBld->Type->ProduceCashDelay);
+		}
+	}
+
+	return 0;
+}
+
 DEFINE_HOOK(0x508C30, HouseClass_UpdatePower_UpdateCounter, 0x5)
 {
 	GET(HouseClass*, pThis, ECX);

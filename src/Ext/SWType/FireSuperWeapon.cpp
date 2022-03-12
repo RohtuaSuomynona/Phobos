@@ -41,6 +41,12 @@ void LimboDeliver(BuildingTypeClass* pType, HouseClass* pOwner, int ID)
 	pOwner->RecheckRadar = true;
 	pOwner->Buildings.AddItem(pBuilding);
 
+	if (pType->ProduceCashAmount)
+	{
+		pBuilding->CashProductionTimer.Start(pType->ProduceCashDelay);
+		pOwnerExt->LimboMoney.AddItem(pBuilding);
+	}
+
 	// increment limbo build count
 	if (pOwnerExt)
 		pOwnerExt->OwnedLimboBuildingTypes.Increment(pType->ArrayIndex);
@@ -166,6 +172,9 @@ void SWTypeExt::ExtData::ApplyLimboKill(HouseClass* pHouse)
 						pTargetHouse->RecheckPower = true;
 						pTargetHouse->RecheckRadar = true;
 						pTargetHouse->Buildings.Remove(pBuilding);
+
+						if (pType->ProduceCashAmount)
+							HouseExt::ExtMap.Find(pTargetHouse)->LimboMoney.Remove(pBuilding);
 
 						// Building logics
 						if (pType->ConstructionYard)

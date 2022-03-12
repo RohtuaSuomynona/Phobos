@@ -18,15 +18,17 @@ public:
 	public:
 		std::map<BuildingTypeExt::ExtData*, int> BuildingCounter;
 		CounterClass OwnedLimboBuildingTypes;
+		DynamicVectorClass<BuildingClass*> LimboMoney;
 
 		ExtData(HouseClass* OwnerObject) : Extension<HouseClass>(OwnerObject)
 			, OwnedLimboBuildingTypes {}
+			, LimboMoney { }
 		{ }
 
 		virtual ~ExtData() = default;
 
 		//virtual void Initialize() override;
-		virtual void InvalidatePointer(void* ptr, bool bRemoved) override {}
+		virtual void InvalidatePointer(void* ptr, bool bRemoved) override { }
 
 		virtual void LoadFromStream(PhobosStreamReader& Stm) override;
 		virtual void SaveToStream(PhobosStreamWriter& Stm) override;
@@ -35,7 +37,8 @@ public:
 		void Serialize(T& Stm);
 	};
 
-	class ExtContainer final : public Container<HouseExt> {
+	class ExtContainer final : public Container<HouseExt>
+	{
 	public:
 		ExtContainer();
 		~ExtContainer();

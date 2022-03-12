@@ -6,6 +6,8 @@
 #include <TechnoClass.h>
 
 // has everything inited except SpawnNextAnim at this point
+#ifndef IS_RELEASE_VER
+
 DEFINE_HOOK(0x466556, BulletClass_Init_SetLaserTrail, 0x6)
 {
 	GET(BulletClass*, pThis, ECX);
@@ -15,6 +17,8 @@ DEFINE_HOOK(0x466556, BulletClass_Init_SetLaserTrail, 0x6)
 
 	return 0;
 }
+
+#endif // !IS_RELEASE_VER
 
 DEFINE_HOOK(0x4666F7, BulletClass_AI, 0x6)
 {
@@ -50,6 +54,8 @@ DEFINE_HOOK(0x4666F7, BulletClass_AI, 0x6)
 
 	// LaserTrails update routine is in BulletClass::AI hook because BulletClass::Draw
 	// doesn't run when the object is off-screen which leads to visual bugs - Kerbiter
+#ifndef IS_RELEASE_VER
+
 	if (pBulletExt && pBulletExt->LaserTrails.size())
 	{
 		CoordStruct location = pThis->GetCoords();
@@ -75,6 +81,8 @@ DEFINE_HOOK(0x4666F7, BulletClass_AI, 0x6)
 		}
 
 	}
+
+#endif // !IS_RELEASE_VER
 
 	return 0;
 }

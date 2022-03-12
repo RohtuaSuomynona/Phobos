@@ -11,7 +11,9 @@
 DEFINE_HOOK(0x6F9E50, TechnoClass_AI, 0x5)
 {
 	GET(TechnoClass*, pThis, ECX);
+#ifndef IS_RELEASE_VER
 	auto pExt = TechnoExt::ExtMap.Find(pThis);
+#endif // !IS_RELEASE_VER
 
 	TechnoExt::ApplyMindControlRangeLimit(pThis);
 	TechnoExt::ApplyInterceptor(pThis);
@@ -22,11 +24,14 @@ DEFINE_HOOK(0x6F9E50, TechnoClass_AI, 0x5)
 
 	// LaserTrails update routine is in TechnoClass::AI hook because TechnoClass::Draw
 	// doesn't run when the object is off-screen which leads to visual bugs - Kerbiter
+#ifndef IS_RELEASE_VER
 	for (auto const& trail : pExt->LaserTrails)
 		trail->Update(TechnoExt::GetFLHAbsoluteCoords(pThis, trail->FLH, trail->IsOnTurret));
+#endif // !IS_RELEASE_VER
 
 	return 0;
 }
+
 
 
 DEFINE_HOOK(0x6F42F7, TechnoClass_Init_NewEntities, 0x2)
@@ -34,7 +39,9 @@ DEFINE_HOOK(0x6F42F7, TechnoClass_Init_NewEntities, 0x2)
 	GET(TechnoClass*, pThis, ESI);
 
 	TechnoExt::InitializeShield(pThis);
+#ifndef IS_RELEASE_VER
 	TechnoExt::InitializeLaserTrails(pThis);
+#endif // !IS_RELEASE_VER
 
 	return 0;
 }
