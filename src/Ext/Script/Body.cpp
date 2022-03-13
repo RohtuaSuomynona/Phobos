@@ -1840,6 +1840,21 @@ bool ScriptExt::EvaluateObjectWithMask(TechnoClass *pTechno, int mask, int attac
 
 		break;
 
+	case 100:
+		pTypeBuilding = abstract_cast<BuildingTypeClass*>(pTechnoType);
+
+		// Useable Repair Hut
+		if (pTypeBuilding)
+		{
+			auto cell = pTechno->GetMapCoords();
+			if (pTypeBuilding->BridgeRepairHut && pTypeBuilding->Repairable)
+				if (MapClass::Instance->IsBridgeRepairable(&cell))
+					return true;
+		}
+
+		break;
+
+
 	default:
 		break;
 	}
