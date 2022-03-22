@@ -1108,6 +1108,9 @@ TechnoClass* ScriptExt::GreatestThreat(TechnoClass *pTechno, int method, int cal
 
 			if (!object->IsInAir() && !unitWeaponsHaveAG)
 				continue;
+
+			if (objectType->Immune)
+				continue;
 		}
 
 		// Don't pick underground units
@@ -1142,7 +1145,6 @@ TechnoClass* ScriptExt::GreatestThreat(TechnoClass *pTechno, int method, int cal
 			&& object->IsAlive
 			&& object->Health > 0
 			&& !object->InLimbo
-			&& !objectType->Immune
 			&& !object->Transporter
 			&& object->IsOnMap
 			&& !object->Absorbed
