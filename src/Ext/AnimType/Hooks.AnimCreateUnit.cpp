@@ -174,6 +174,8 @@ DEFINE_HOOK(0x469C98, BulletClass_DetonateAt_DamageAnimSelected, 0x0)
 
 		if (auto unit = pTypeExt->CreateUnit.Get())
 			AnimExt::SetAnimOwnerHouseKind(pAnim, pInvoker, pVictim, pInvoker);
+		else if (!pAnim->Owner && pThis->Owner)
+			pAnim->Owner = pThis->Owner->Owner;
 	}
 	else if (pThis->WH == RulesClass::Instance->NukeWarhead)
 	{
@@ -194,7 +196,8 @@ DEFINE_HOOK(0x6E2368, ActionClass_PlayAnimAt, 0x7)
 
 		if (auto unit = pTypeExt->CreateUnit.Get())
 			AnimExt::SetAnimOwnerHouseKind(pAnim, pHouse, pHouse, pHouse);
-
+		else if (!pAnim->Owner && pHouse)
+			pAnim->Owner = pHouse;
 	}
 
 	return 0;
