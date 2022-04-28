@@ -4,7 +4,7 @@ Enumerable<ShieldTypeClass>::container_t Enumerable<ShieldTypeClass>::Array;
 
 const char* Enumerable<ShieldTypeClass>::GetMainSection()
 {
-	return "ShieldTypes";
+	return "PhobosShieldTypes";
 }
 
 void ShieldTypeClass::LoadFromINI(CCINIClass* pINI)

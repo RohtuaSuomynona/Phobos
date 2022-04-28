@@ -820,7 +820,7 @@ void ScriptExt::Mission_Attack(TeamClass *pTeam, bool repeatAction = true, int c
 							if (pUnitType->WhatAmI() != AbstractType::AircraftType)
 							{
 								pUnit->QueueMission(Mission::Attack, true);
-								pUnit->ClickedAction(Action::Attack, selectedTarget, false);
+								pUnit->ObjectClickedAction(Action::Attack, selectedTarget, false);
 
 								if (pUnit->GetCurrentMission() != Mission::Attack)
 									pUnit->Mission_Attack();
@@ -853,7 +853,7 @@ void ScriptExt::Mission_Attack(TeamClass *pTeam, bool repeatAction = true, int c
 					else
 					{
 						pUnit->QueueMission(Mission::Attack, true);
-						pUnit->ClickedAction(Action::Attack, selectedTarget, false);
+						pUnit->ObjectClickedAction(Action::Attack, selectedTarget, false);
 						pUnit->Mission_Attack();
 					}
 				}
@@ -955,7 +955,7 @@ void ScriptExt::Mission_Attack(TeamClass *pTeam, bool repeatAction = true, int c
 								pUnit->QueueMission(Mission::Attack, true);
 
 								if (pFocus)
-									pUnit->ClickedAction(Action::Attack, pFocus, false);
+									pUnit->ObjectClickedAction(Action::Attack, pFocus, false);
 
 								pUnit->Mission_Attack();
 							}
@@ -975,7 +975,7 @@ void ScriptExt::Mission_Attack(TeamClass *pTeam, bool repeatAction = true, int c
 								pUnit->QueueMission(Mission::Attack, true);
 
 								if (pFocus)
-									pUnit->ClickedAction(Action::Attack, pFocus, false);
+									pUnit->ObjectClickedAction(Action::Attack, pFocus, false);
 
 								pUnit->Mission_Attack();
 							}
@@ -2175,7 +2175,7 @@ void ScriptExt::Mission_Move(TeamClass *pTeam, int calcThreatMode = 0, bool pick
 						if (pUnitType->WhatAmI() != AbstractType::AircraftType)
 						{
 							pUnit->QueueMission(Mission::Move, false);
-							pUnit->ClickedAction(Action::Move, selectedTarget, false);
+							pUnit->ObjectClickedAction(Action::Move, selectedTarget, false);
 
 							if (pUnit->GetCurrentMission() != Mission::Move)
 								pUnit->Mission_Move();

@@ -46,7 +46,7 @@ void BulletTypeExt::ExtData::LoadFromINIFile(CCINIClass* const pINI)
 	if (strlen(pThis->ImageFile))
 		pSection = pThis->ImageFile;
 
-	this->LaserTrail_Types.Read(exArtINI, pSection, "LaserTrail.Types");
+	this->LaserTrail_Types.Read(exArtINI, pSection, "PhobosLaserTrail.Types");
 }
 
 template <typename T>

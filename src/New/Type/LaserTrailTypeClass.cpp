@@ -7,7 +7,7 @@ Enumerable<LaserTrailTypeClass>::container_t Enumerable<LaserTrailTypeClass>::Ar
 
 const char* Enumerable<LaserTrailTypeClass>::GetMainSection()
 {
-	return "LaserTrailTypes";
+	return "PhobosLaserTrailTypes";
 }
 
 void LaserTrailTypeClass::LoadFromINI(CCINIClass* pINI)

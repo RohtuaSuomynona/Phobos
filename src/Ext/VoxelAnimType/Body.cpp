@@ -10,7 +10,7 @@ void VoxelAnimTypeExt::ExtData::LoadFromINIFile(CCINIClass* pINI)
 	const char* pID = this->OwnerObject()->ID;
 	INI_EX exINI(pINI);
 
-	this->LaserTrail_Types.Read(exINI, pID, "LaserTrail.Types");
+	this->LaserTrail_Types.Read(exINI, pID, "PhobosLaserTrail.Types");
 }
 
 // =============================
