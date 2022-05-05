@@ -61,6 +61,8 @@ DEFINE_HOOK(0x4408EB, BuildingClass_Unlimbo_UpgradeBuildings, 0xA)
 	return ForbidUpgrade;
 }
 
+#ifndef IS_RELEASE_VER
+
 #pragma region UpgradesInteraction
 
 int BuildLimitRemaining(HouseClass const* const pHouse, BuildingTypeClass const* const pItem)
@@ -107,3 +109,5 @@ DEFINE_HOOK(0x4F8361, HouseClass_CanBuild_UpgradesInteraction, 0x3)
 }
 
 #pragma endregion
+
+#endif

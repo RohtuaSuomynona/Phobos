@@ -369,7 +369,7 @@ DEFINE_HOOK(0x480552, CellClass_AttachesToNeighbourOverlay_Gate, 0x7)
 
 	return 0;
 }
-
+#ifndef IS_RELEASE_VER
 DEFINE_HOOK(0x415F5C, AircraftClass_FireAt_SpeedModifiers, 0xA)
 {
 	GET(AircraftClass*, pThis, EDI);
@@ -421,7 +421,7 @@ DEFINE_HOOK(0x54D138, JumpjetLocomotionClass_Movement_AI_SpeedModifiers, 0x6)
 
 	return 0;
 }
-
+#endif
 DEFINE_HOOK(0x73B2A2, UnitClass_DrawObject_DrawerBlitterFix, 0x6)
 {
 	enum { SkipGameCode = 0x73B2C3 };

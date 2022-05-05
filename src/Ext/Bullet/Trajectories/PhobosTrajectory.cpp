@@ -9,6 +9,7 @@
 
 #include "BombardTrajectory.h"
 #include "StraightTrajectory.h"
+#include "UpTrajectory.h"
 
 bool PhobosTrajectoryType::Load(PhobosStreamReader& Stm, bool RegisterForChange)
 {
@@ -34,6 +35,8 @@ void PhobosTrajectoryType::CreateType(PhobosTrajectoryType*& pType, CCINIClass* 
 		pNewType = GameCreate<StraightTrajectoryType>();
 	else if (_stricmp(Phobos::readBuffer, "Bombard") == 0)
 		pNewType = GameCreate<BombardTrajectoryType>();
+	else if (!_stricmp(Phobos::readBuffer, "Up"))
+		pNewType = GameCreate<UpTrajectoryType>();
 	else
 		bUpdateType = false;
 
@@ -62,6 +65,10 @@ PhobosTrajectoryType* PhobosTrajectoryType::LoadFromStream(PhobosStreamReader& S
 
 		case TrajectoryFlag::Bombard:
 			pType = GameCreate<BombardTrajectoryType>();
+			break;
+
+		case TrajectoryFlag::Up:
+			pType = GameCreate<UpTrajectoryType>();
 			break;
 
 		default:
@@ -126,6 +133,10 @@ PhobosTrajectory* PhobosTrajectory::CreateInstance(PhobosTrajectoryType* pType, 
 
 	case TrajectoryFlag::Bombard:
 		pRet = GameCreate<BombardTrajectory>(pType);
+		break;
+
+	case TrajectoryFlag::Up:
+		pRet = GameCreate<UpTrajectory>(pType);
 		break;
 	}
 

@@ -1,7 +1,7 @@
 #include "Body.h"
 
 #include <BuildingClass.h>
-
+#ifndef IS_RELEASE_VER
 DEFINE_HOOK(0x460285, BuildingTypeClass_LoadFromINI_Muzzle, 0x6)
 {
 	enum { Skip = 0x460388, Read = 0x460299 };
@@ -60,3 +60,4 @@ DEFINE_HOOK(0x458623, BuildingClass_KillOccupiers_Replace_MuzzleFix, 0x7)
 
 	return 0;
 }
+#endif
