@@ -24,6 +24,7 @@ public:
 		Valueable<Mission> CreateUnit_Mission;
 		Valueable<OwnerHouseKind> CreateUnit_Owner;
 		Valueable<bool> CreateUnit_ConsiderPathfinding;
+		Valueable<CoordStruct> CreateUnit_Offset;
 		Valueable<int> XDrawOffset;
 		Valueable<int> HideIfNoOre_Threshold;
 		Nullable<bool> Layer_UseObjectLayer;
@@ -39,6 +40,7 @@ public:
 			, CreateUnit_Mission { Mission::Guard }
 			, CreateUnit_Owner { OwnerHouseKind::Victim }
 			, CreateUnit_ConsiderPathfinding { false }
+			, CreateUnit_Offset { {0,0,0 } }
 			, XDrawOffset { 0 }
 			, HideIfNoOre_Threshold { 0 }
 			, Layer_UseObjectLayer {}

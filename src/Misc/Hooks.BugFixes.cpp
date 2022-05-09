@@ -433,7 +433,7 @@ DEFINE_HOOK(0x73B2A2, UnitClass_DrawObject_DrawerBlitterFix, 0x6)
 
 	return SkipGameCode;
 }
-
+#ifndef IS_RELEASE_VER
 // Set all bullet params (Bright) from weapon for nuke carrier weapon.
 DEFINE_HOOK(0x44CABA, BuildingClass_Mission_Missile_BulletParams, 0x7)
 {
@@ -468,3 +468,4 @@ DEFINE_HOOK(0x46B3E6, BulletClass_NukeMaker_BulletParams, 0x8)
 	R->EDI(pThis);
 	return SkipGameCode;
 }
+#endif // !IS_RELEASE_VER

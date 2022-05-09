@@ -72,7 +72,7 @@ DEFINE_HOOK(0x424932, AnimClass_Update_CreateUnit_ActualAffects, 0x6)
 
 	auto const pTypeExt = AnimTypeExt::ExtMap.Find(pThis->Type);
 
-	if (auto unit = pTypeExt->CreateUnit.Get())
+	if (auto pUnit = pTypeExt->CreateUnit.Get())
 	{
 		HouseClass* decidedOwner = (pThis->Owner)
 			? pThis->Owner : HouseClass::FindCivilianSide();
@@ -89,10 +89,10 @@ DEFINE_HOOK(0x424932, AnimClass_Update_CreateUnit_ActualAffects, 0x6)
 
 		if (pTypeExt->CreateUnit_ConsiderPathfinding)
 		{
-			bool allowBridges = unit->SpeedType != SpeedType::Float;
+			bool allowBridges = pUnit->SpeedType != SpeedType::Float;
 
 			auto nCell = MapClass::Instance->NearByLocation(CellClass::Coord2Cell(location),
-				unit->SpeedType, -1, unit->MovementZone, false, 1, 1, true,
+				pUnit->SpeedType, -1, pUnit->MovementZone, false, 1, 1, true,
 				false, false, allowBridges, CellStruct::Empty, false, false);
 
 			pCell = MapClass::Instance->TryGetCellAt(nCell);
@@ -104,7 +104,9 @@ DEFINE_HOOK(0x424932, AnimClass_Update_CreateUnit_ActualAffects, 0x6)
 				location.Z = MapClass::Instance->GetCellFloorHeight(location);
 		}
 
-		if (auto pTechno = static_cast<TechnoClass*>(unit->CreateObject(decidedOwner)))
+		location += pTypeExt->CreateUnit_Offset;
+
+		if (auto pTechno = static_cast<TechnoClass*>(pUnit->CreateObject(decidedOwner)))
 		{
 			bool success = false;
 			auto const pExt = AnimExt::ExtMap.Find(pThis);
@@ -133,10 +135,15 @@ DEFINE_HOOK(0x424932, AnimClass_Update_CreateUnit_ActualAffects, 0x6)
 
 			if (success)
 			{
+				pTechno->SetLocation(location);
+
+				if (pTypeExt->CreateUnit_ConsiderPathfinding && (pUnit->JumpJet || pUnit->BalloonHover))
+					pTechno->Scatter(CoordStruct::Empty, true, false);
+
 				if (pTechno->HasTurret() && pExt->FromDeathUnit && pExt->DeathUnitHasTurret && pTypeExt->CreateUnit_InheritTurretFacings.Get())
 					pTechno->SecondaryFacing.set(pExt->DeathUnitTurretFacing);
 
-				Debug::Log("[" __FUNCTION__ "] Stored Turret Facing %d \n", pExt->DeathUnitTurretFacing.value256());
+				//Debug::Log("[" __FUNCTION__ "] Stored Turret Facing %d \n", pExt->DeathUnitTurretFacing.value256());
 
 				if (!pTechno->InLimbo)
 					pTechno->QueueMission(pTypeExt->CreateUnit_Mission.Get(), false);
